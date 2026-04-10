@@ -5,48 +5,323 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $settings['site_name'] ?? 'Oficina' }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        :root { --primary: #e63946; }
-        body { font-family: 'Segoe UI', sans-serif; }
-        .navbar { background: #1a1a2e !important; }
-        .navbar-brand, .nav-link { color: #fff !important; }
-        .nav-link:hover { color: var(--primary) !important; }
-        #hero { position: relative; background: #1a1a2e; color: #fff; min-height: 500px; display: flex; align-items: center; }
-        #hero .carousel { width: 100%; }
-        #hero .carousel-item img { width: 100%; height: 500px; object-fit: cover; opacity: 0.5; }
-        #hero .hero-text { position: absolute; z-index: 10; text-align: center; width: 100%; }
-        #hero h1 { font-size: 3rem; font-weight: 800; }
-        #hero p { font-size: 1.3rem; }
-        .btn-primary { background: var(--primary); border-color: var(--primary); }
-        .btn-primary:hover { background: #c1121f; border-color: #c1121f; }
-        .section-title { font-weight: 700; position: relative; display: inline-block; margin-bottom: 2rem; }
-        .section-title::after { content: ''; display: block; width: 60px; height: 4px; background: var(--primary); margin-top: 8px; }
-        .service-card { border: none; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,.08); transition: transform .2s; }
-        .service-card:hover { transform: translateY(-5px); }
-        .service-icon { font-size: 2.5rem; }
-        #about { background: #f8f9fa; }
-        #contact { background: #1a1a2e; color: #fff; }
-        #contact a { color: var(--primary); text-decoration: none; }
-        footer { background: #111; color: #aaa; padding: 1rem 0; text-align: center; font-size: .9rem; }
-        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; z-index: 999; }
-        .whatsapp-float a { background: #25d366; color: #fff; border-radius: 50px; padding: 12px 20px; font-size: 1.1rem; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,.3); display: flex; align-items: center; gap: 8px; }
-        .contact-link { display: flex; flex-direction: column; align-items: center; gap: 8px; color: #fff; text-decoration: none; padding: 20px 28px; border-radius: 12px; background: rgba(255,255,255,.07); transition: background .2s; min-width: 100px; }
-        .contact-link:hover { background: rgba(255,255,255,.15); color: #fff; }
-        .contact-link span { font-size: .9rem; font-weight: 500; }
+        :root {
+            --primary: #e63946;
+            --dark: #111827;
+            --dark2: #1f2937;
+            --gray: #f3f4f6;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; margin: 0; color: #333; }
+
+        /* TOP BAR */
+        .topbar {
+            background: var(--primary);
+            color: #fff;
+            font-size: .82rem;
+            padding: 6px 0;
+        }
+        .topbar a { color: #fff; text-decoration: none; }
+        .topbar a:hover { text-decoration: underline; }
+
+        /* NAVBAR */
+        .navbar {
+            background: var(--dark) !important;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,.4);
+        }
+        .navbar-brand img { height: 48px; object-fit: contain; max-width: 160px; }
+        .navbar-brand span { color: #fff; font-weight: 900; font-size: 1.3rem; letter-spacing: 1px; }
+        .nav-link {
+            color: #d1d5db !important;
+            font-weight: 600;
+            font-size: .9rem;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            padding: 22px 16px !important;
+            transition: color .2s, border-bottom .2s;
+            border-bottom: 3px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #fff !important;
+            border-bottom-color: var(--primary);
+        }
+        .navbar-toggler { border: none; }
+        .navbar-toggler-icon { filter: invert(1); }
+
+        /* HERO */
+        #hero { position: relative; overflow: hidden; }
+        #hero .carousel, #hero .carousel-inner, #hero .carousel-item { height: 580px; }
+        .carousel-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            filter: brightness(.45);
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            text-align: center;
+            padding: 0 20px;
+            pointer-events: none;
+        }
+        .hero-overlay > div { pointer-events: all; }
+        .hero-overlay h1 {
+            font-size: clamp(2rem, 5vw, 3.8rem);
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 2px 12px rgba(0,0,0,.6);
+            line-height: 1.15;
+        }
+        .hero-overlay p {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: #e5e7eb;
+            margin-top: 1rem;
+            text-shadow: 0 1px 6px rgba(0,0,0,.5);
+        }
+        .hero-overlay .btn-hero {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 14px 36px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1.5rem;
+            transition: background .2s, transform .2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .hero-overlay .btn-hero:hover { background: #c1121f; transform: translateY(-2px); }
+        .carousel-control-prev, .carousel-control-next {
+            width: 50px;
+            opacity: .7;
+        }
+        .carousel-indicators [data-bs-target] {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.6);
+        }
+        .carousel-indicators .active { background: var(--primary); }
+
+        /* DIFERENCIAIS */
+        #diferenciais {
+            background: var(--primary);
+            padding: 0;
+        }
+        .diferencial-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 22px 24px;
+            color: #fff;
+            border-right: 1px solid rgba(255,255,255,.2);
+        }
+        .diferencial-item:last-child { border-right: none; }
+        .diferencial-item i { font-size: 1.8rem; flex-shrink: 0; }
+        .diferencial-item strong { display: block; font-size: .95rem; font-weight: 700; }
+        .diferencial-item span { font-size: .82rem; opacity: .9; }
+
+        /* SERVIÇOS */
+        #services { padding: 70px 0; background: var(--gray); }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header .badge-label {
+            background: var(--primary);
+            color: #fff;
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+        .section-header h2 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--dark);
+            margin: 0;
+        }
+        .section-header p { color: #6b7280; margin-top: 10px; font-size: .95rem; }
+        .service-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 36px 24px;
+            text-align: center;
+            box-shadow: 0 2px 16px rgba(0,0,0,.07);
+            transition: transform .25s, box-shadow .25s;
+            height: 100%;
+            border-top: 4px solid transparent;
+        }
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 30px rgba(0,0,0,.12);
+            border-top-color: var(--primary);
+        }
+        .service-icon {
+            width: 70px; height: 70px;
+            background: #fef2f2;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 18px;
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+        .service-card h5 { font-weight: 700; font-size: 1rem; color: var(--dark); margin-bottom: 8px; }
+        .service-card p { color: #6b7280; font-size: .88rem; margin: 0; }
+
+        /* SOBRE */
+        #about { padding: 80px 0; background: #fff; }
+        #about h2 { font-size: 2rem; font-weight: 900; color: var(--dark); margin-bottom: 16px; }
+        #about .about-text { color: #6b7280; font-size: 1rem; line-height: 1.9; margin: 20px 0 0; }
+        .about-divider { width: 50px; height: 4px; background: var(--primary); border-radius: 2px; margin: 16px auto 0; }
+        .about-info { display: flex; align-items: flex-start; justify-content: center; gap: 8px; margin-top: 12px; color: #6b7280; font-size: .88rem; line-height: 1.5; }
+        .about-info i { color: var(--primary); font-size: .9rem; margin-top: 3px; flex-shrink: 0; }
+        .btn-about {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 12px 32px;
+            font-weight: 700;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 28px;
+            font-size: .88rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background .2s;
+        }
+        .btn-about:hover { background: #c1121f; color: #fff; }
+
+        /* CONTATO */
+        #contact { background: var(--dark); padding: 70px 0; }
+        #contact .section-header h2 { color: #fff; }
+        #contact .section-header p { color: #9ca3af; }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            background: rgba(255,255,255,.05);
+            border-radius: 10px;
+            padding: 18px 16px;
+            text-decoration: none;
+            transition: background .2s;
+        }
+        .contact-item:hover { background: rgba(255,255,255,.1); }
+        .contact-item .icon-wrap {
+            width: 44px; height: 44px;
+            border-radius: 10px;
+            background: rgba(255,255,255,.07);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+        .contact-item .icon-wrap.wa { color: #25d366; }
+        .contact-item .icon-wrap.fb { color: #1877f2; }
+        .contact-item .icon-wrap.ig { color: #e1306c; }
+        .contact-item .icon-wrap.ph { color: var(--primary); }
+        .contact-item .icon-wrap.ad { color: #facc15; }
+        .contact-item strong { display: block; color: #f9fafb; font-size: .88rem; font-weight: 700; }
+        .contact-item span { color: #9ca3af; font-size: .82rem; line-height: 1.5; display: block; margin-top: 2px; }
+        @media (max-width: 576px) {
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+
+        /* FOOTER */
+        footer {
+            background: #0a0f1a;
+            color: #6b7280;
+            text-align: center;
+            padding: 20px 0;
+            font-size: .85rem;
+        }
+        footer strong { color: #d1d5db; }
+
+        /* WHATSAPP FLOAT */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 28px; right: 28px;
+            z-index: 9999;
+        }
+        .whatsapp-float a {
+            background: #25d366;
+            color: #fff;
+            border-radius: 50px;
+            padding: 13px 22px;
+            font-size: .95rem;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(37,211,102,.4);
+            display: flex; align-items: center; gap: 8px;
+            transition: transform .2s, box-shadow .2s;
+        }
+        .whatsapp-float a:hover { transform: scale(1.05); box-shadow: 0 6px 24px rgba(37,211,102,.5); }
+
+        @media (max-width: 768px) {
+            #hero .carousel, #hero .carousel-inner, #hero .carousel-item { height: 380px; }
+            .diferencial-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,.2); }
+            .diferencial-item:last-child { border-bottom: none; }
+        }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg sticky-top">
-    <div class="container">
-        <a class="navbar-brand fw-bold fs-4" href="#">
-            @if(!empty($settings['logo']))
-            <img src="{{ Storage::url($settings['logo']) }}" height="40" style="object-fit:contain;max-width:160px">
+{{-- TOP BAR --}}
+@if(!empty($settings['phone']) || !empty($settings['address']))
+<div class="topbar d-none d-md-block">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div class="d-flex gap-4">
+            @if(!empty($settings['phone']))
+            <span><i class="fa fa-phone me-1"></i> {{ $settings['phone'] }}</span>
             @endif
-            {{ $settings['site_name'] ?? 'Oficina' }}
+            @if(!empty($settings['address']))
+            <span><i class="fa fa-map-marker-alt me-1"></i> {{ $settings['address'] }}</span>
+            @endif
+        </div>
+        <div class="d-flex gap-3">
+            @if(!empty($settings['whatsapp']))
+            <a href="https://wa.me/{{ $settings['whatsapp'] }}" target="_blank"><i class="fab fa-whatsapp me-1"></i>WhatsApp</a>
+            @endif
+            @if(!empty($settings['instagram']))
+            <a href="{{ $settings['instagram'] }}" target="_blank"><i class="fab fa-instagram me-1"></i>Instagram</a>
+            @endif
+            @if(!empty($settings['facebook']))
+            <a href="{{ $settings['facebook'] }}" target="_blank"><i class="fab fa-facebook me-1"></i>Facebook</a>
+            @endif
+        </div>
+    </div>
+</div>
+@endif
+
+{{-- NAVBAR --}}
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+            @if(!empty($settings['logo']))
+                <img src="{{ Storage::url($settings['logo']) }}" alt="Logo">
+            @endif
+            <span>{{ $settings['site_name'] ?? 'Oficina' }}</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-            <span class="navbar-toggler-icon" style="filter:invert(1)"></span>
+            <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="nav">
             <ul class="navbar-nav ms-auto">
@@ -54,25 +329,32 @@
                 <li class="nav-item"><a class="nav-link" href="#services">Serviços</a></li>
                 <li class="nav-item"><a class="nav-link" href="#about">Sobre</a></li>
                 <li class="nav-item"><a class="nav-link" href="#contact">Contato</a></li>
+                @if(!empty($settings['whatsapp']))
+                <li class="nav-item ms-lg-3 d-flex align-items-center">
+                    <a href="https://wa.me/{{ $settings['whatsapp'] }}" target="_blank"
+                       style="background:var(--primary);color:#fff;padding:8px 18px;border-radius:4px;font-size:.85rem;font-weight:700;text-decoration:none;text-transform:uppercase;letter-spacing:.5px">
+                        <i class="fab fa-whatsapp me-1"></i> Orçamento
+                    </a>
+                </li>
+                @endif
             </ul>
         </div>
     </div>
 </nav>
 
-<!-- Hero / Banners -->
+{{-- HERO --}}
 <section id="hero">
     @if($banners->count())
-    <div id="carouselBanners" class="carousel slide w-100" data-bs-ride="carousel">
+    <div id="carouselBanners" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+        <div class="carousel-indicators">
+            @foreach($banners as $i => $banner)
+            <button type="button" data-bs-target="#carouselBanners" data-bs-slide-to="{{ $i }}" {{ $i === 0 ? 'class=active' : '' }}></button>
+            @endforeach
+        </div>
         <div class="carousel-inner">
             @foreach($banners as $i => $banner)
             <div class="carousel-item {{ $i === 0 ? 'active' : '' }}">
                 <img src="{{ Storage::url($banner->image) }}" alt="{{ $banner->title }}">
-                @if($banner->title)
-                <div class="carousel-caption">
-                    <h2 class="fw-bold">{{ $banner->title }}</h2>
-                    <p>{{ $banner->subtitle }}</p>
-                </div>
-                @endif
             </div>
             @endforeach
         </div>
@@ -85,92 +367,189 @@
         </button>
         @endif
     </div>
+    @else
+    <div style="height:580px;background:linear-gradient(135deg,#111827,#1f2937);width:100%"></div>
     @endif
-    <div class="hero-text px-3">
-        <h1>{{ $settings['hero_title'] ?? '' }}</h1>
-        <p>{{ $settings['hero_subtitle'] ?? '' }}</p>
+
+    <div class="hero-overlay">
+        <div>
+            <h1>{!! nl2br(e($settings['hero_title'] ?? 'Qualidade e Confiança\npara o seu Veículo')) !!}</h1>
+            @if(!empty($settings['hero_subtitle']))
+            <p>{{ $settings['hero_subtitle'] }}</p>
+            @endif
+            @if(!empty($settings['whatsapp']))
+            <a href="https://wa.me/{{ $settings['whatsapp'] }}" target="_blank" class="btn-hero">
+                <i class="fab fa-whatsapp me-2"></i>Solicitar Orçamento
+            </a>
+            @endif
+        </div>
     </div>
 </section>
 
-<!-- Serviços -->
-<section id="services" class="py-5">
+{{-- DIFERENCIAIS --}}
+<section id="diferenciais">
+    <div class="container-fluid px-0">
+        <div class="row g-0">
+            <div class="col-md-3 col-6">
+                <div class="diferencial-item">
+                    <i class="fas fa-tools"></i>
+                    <div><strong>Equipe Especializada</strong><span>Profissionais qualificados</span></div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="diferencial-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <div><strong>Garantia nos Serviços</strong><span>Trabalho com qualidade</span></div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="diferencial-item">
+                    <i class="fas fa-clock"></i>
+                    <div><strong>Atendimento Rápido</strong><span>Agilidade no diagnóstico</span></div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="diferencial-item">
+                    <i class="fas fa-dollar-sign"></i>
+                    <div><strong>Preço Justo</strong><span>Orçamento sem surpresas</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- SERVIÇOS --}}
+<section id="services">
     <div class="container">
-        <h2 class="section-title">Nossos Serviços</h2>
+        <div class="section-header">
+            <span class="badge-label">O que fazemos</span>
+            <h2>Nossos Serviços</h2>
+            <p>Soluções completas para o seu veículo com qualidade e agilidade</p>
+        </div>
+        @if($services->count())
         <div class="row g-4">
             @foreach($services as $service)
-            <div class="col-md-3 col-sm-6">
-                <div class="card service-card p-4 h-100 text-center">
-                    <div class="service-icon mb-3">{{ $service->icon }}</div>
-                    <h5 class="fw-bold">{{ $service->title }}</h5>
-                    <p class="text-muted mb-0">{{ $service->description }}</p>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="service-card">
+                    <div class="service-icon">{{ $service->icon }}</div>
+                    <h5>{{ $service->title }}</h5>
+                    <p>{{ $service->description }}</p>
                 </div>
             </div>
             @endforeach
         </div>
-    </div>
-</section>
-
-<!-- Sobre -->
-<section id="about" class="py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <h2 class="section-title">Sobre Nós</h2>
-                <p class="lead">{{ $settings['about_text'] ?? '' }}</p>
-                @if(!empty($settings['address']))
-                <p>📍 {{ $settings['address'] }}</p>
-                @endif
-                @if(!empty($settings['phone']))
-                <p>📞 {{ $settings['phone'] }}</p>
-                @endif
-            </div>
-            <div class="col-md-6 text-center">
-                <span style="font-size:8rem">🔧</span>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Contato -->
-<section id="contact" class="py-5">
-    <div class="container text-center">
-        <h2 class="section-title" style="color:#fff">Fale Conosco</h2>
-        <div class="d-flex justify-content-center gap-4 flex-wrap mt-4">
-            @if(!empty($settings['whatsapp']))
-            <a href="https://wa.me/{{ $settings['whatsapp'] }}" target="_blank" class="contact-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#25d366" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                <span>WhatsApp</span>
-            </a>
-            @endif
-            @if(!empty($settings['facebook']))
-            <a href="{{ $settings['facebook'] }}" target="_blank" class="contact-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#1877f2" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                <span>Facebook</span>
-            </a>
-            @endif
-            @if(!empty($settings['instagram']))
-            <a href="{{ $settings['instagram'] }}" target="_blank" class="contact-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#e1306c" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                <span>Instagram</span>
-            </a>
-            @endif
-        </div>
-        @if(!empty($settings['address']))
-        <p class="mt-4 text-white-50">📍 {{ $settings['address'] }}</p>
         @endif
     </div>
 </section>
 
+{{-- SOBRE --}}
+<section id="about">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-9 text-center">
+                <span class="badge-label">Quem somos</span>
+                <h2 class="mt-3">Sobre Nós</h2>
+                <div class="about-divider"></div>
+                @if(!empty($settings['about_text']))
+                <p class="about-text">{{ $settings['about_text'] }}</p>
+                @endif
+                @if(!empty($settings['address']))
+                <div class="about-info"><i class="fas fa-map-marker-alt"></i> <span>{{ $settings['address'] }}</span></div>
+                @endif
+                @if(!empty($settings['phone']))
+                <div class="about-info"><i class="fas fa-phone"></i> <span>{{ $settings['phone'] }}</span></div>
+                @endif
+                @if(!empty($settings['whatsapp']))
+                <div>
+                    <a href="https://wa.me/{{ $settings['whatsapp'] }}" target="_blank" class="btn-about">
+                        <i class="fab fa-whatsapp me-2"></i>Fale Conosco
+                    </a>
+                </div>
+                @endif
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- CONTATO --}}
+<section id="contact">
+    <div class="container">
+        <div class="section-header">
+            <span class="badge-label">Atendimento</span>
+            <h2>Fale Conosco</h2>
+            <p>Escolha o canal de atendimento de sua preferência</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="contact-grid">
+                    @if(!empty($settings['whatsapp']))
+                    <a href="https://wa.me/{{ $settings['whatsapp'] }}" target="_blank" class="contact-item">
+                        <div class="icon-wrap wa"><i class="fab fa-whatsapp"></i></div>
+                        <div><strong>WhatsApp</strong><span>{{ $settings['whatsapp'] }}</span></div>
+                    </a>
+                    @endif
+                    @if(!empty($settings['phone']))
+                    <a href="tel:{{ $settings['phone'] }}" class="contact-item">
+                        <div class="icon-wrap ph"><i class="fas fa-phone"></i></div>
+                        <div><strong>Telefone</strong><span>{{ $settings['phone'] }}</span></div>
+                    </a>
+                    @endif
+                    @if(!empty($settings['address']))
+                    <div class="contact-item">
+                        <div class="icon-wrap ad"><i class="fas fa-map-marker-alt"></i></div>
+                        <div><strong>Endereço</strong><span>{{ $settings['address'] }}</span></div>
+                    </div>
+                    @endif
+                    @if(!empty($settings['instagram']))
+                    <a href="{{ $settings['instagram'] }}" target="_blank" class="contact-item">
+                        <div class="icon-wrap ig"><i class="fab fa-instagram"></i></div>
+                        <div><strong>Instagram</strong><span>Nos siga no Instagram</span></div>
+                    </a>
+                    @endif
+                    @if(!empty($settings['facebook']))
+                    <a href="{{ $settings['facebook'] }}" target="_blank" class="contact-item">
+                        <div class="icon-wrap fb"><i class="fab fa-facebook"></i></div>
+                        <div><strong>Facebook</strong><span>Nos siga no Facebook</span></div>
+                    </a>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- FOOTER --}}
 <footer>
-    <p class="mb-0">© {{ date('Y') }} {{ $settings['site_name'] ?? 'Oficina' }}. Todos os direitos reservados.</p>
+    <p class="mb-0">© {{ date('Y') }} <strong>{{ $settings['site_name'] ?? 'Oficina' }}</strong>. Todos os direitos reservados.</p>
 </footer>
 
+{{-- WHATSAPP FLOAT --}}
 @if(!empty($settings['whatsapp']))
 <div class="whatsapp-float">
-    <a href="https://wa.me/{{ $settings['whatsapp'] }}" target="_blank">💬 WhatsApp</a>
+    <a href="https://wa.me/{{ $settings['whatsapp'] }}" target="_blank">
+        <i class="fab fa-whatsapp" style="font-size:1.3rem"></i> WhatsApp
+    </a>
 </div>
 @endif
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            const target = document.querySelector(a.getAttribute('href'));
+            if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+        });
+    });
+    // Active nav on scroll
+    const sections = document.querySelectorAll('section[id]');
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.id; });
+        document.querySelectorAll('.nav-link').forEach(l => {
+            l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+        });
+    });
+</script>
 </body>
 </html>
