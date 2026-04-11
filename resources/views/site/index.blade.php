@@ -289,7 +289,7 @@
     <div class="container d-flex justify-content-between align-items-center">
         <div class="d-flex gap-4">
             @if(!empty($settings['phone']))
-            <span><i class="fa fa-phone me-1"></i> {{ $settings['phone'] }}</span>
+            <span><i class="fa fa-phone me-1"></i> @phone($settings['phone'])</span>
             @endif
             @if(!empty($settings['address']))
             <span><i class="fa fa-map-marker-alt me-1"></i> {{ $settings['address'] }}</span>
@@ -453,7 +453,7 @@
                 <div class="about-info"><i class="fas fa-map-marker-alt"></i> <span>{{ $settings['address'] }}</span></div>
                 @endif
                 @if(!empty($settings['phone']))
-                <div class="about-info"><i class="fas fa-phone"></i> <span>{{ $settings['phone'] }}</span></div>
+                <div class="about-info"><i class="fas fa-phone"></i> <span>@phone($settings['phone'])</span></div>
                 @endif
                 @if(!empty($settings['whatsapp']))
                 <div>
@@ -481,13 +481,13 @@
                     @if(!empty($settings['whatsapp']))
                     <a href="https://wa.me/{{ $settings['whatsapp'] }}" target="_blank" class="contact-item">
                         <div class="icon-wrap wa"><i class="fab fa-whatsapp"></i></div>
-                        <div><strong>WhatsApp</strong><span>{{ $settings['whatsapp'] }}</span></div>
+                        <div><strong>WhatsApp</strong><span>@phone($settings['whatsapp'])</span></div>
                     </a>
                     @endif
                     @if(!empty($settings['phone']))
                     <a href="tel:{{ $settings['phone'] }}" class="contact-item">
                         <div class="icon-wrap ph"><i class="fas fa-phone"></i></div>
-                        <div><strong>Telefone</strong><span>{{ $settings['phone'] }}</span></div>
+                        <div><strong>Telefone</strong><span>@phone($settings['phone'])</span></div>
                     </a>
                     @endif
                     @if(!empty($settings['address']))
