@@ -55,10 +55,6 @@
                 <input type="text" name="phone" class="form-control" value="{{ $settings['phone'] ?? '' }}">
             </div>
             <div class="col-md-4">
-                <label class="form-label">Facebook (URL)</label>
-                <input type="url" name="facebook" class="form-control" value="{{ $settings['facebook'] ?? '' }}">
-            </div>
-            <div class="col-md-4">
                 <label class="form-label">Instagram (URL)</label>
                 <input type="url" name="instagram" class="form-control" value="{{ $settings['instagram'] ?? '' }}">
             </div>

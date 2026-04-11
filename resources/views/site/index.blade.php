@@ -235,7 +235,6 @@
             font-size: 1.2rem;
         }
         .contact-item .icon-wrap.wa { color: #25d366; }
-        .contact-item .icon-wrap.fb { color: #1877f2; }
         .contact-item .icon-wrap.ig { color: #e1306c; }
         .contact-item .icon-wrap.ph { color: var(--primary); }
         .contact-item .icon-wrap.ad { color: #facc15; }
@@ -302,9 +301,6 @@
             @endif
             @if(!empty($settings['instagram']))
             <a href="{{ $settings['instagram'] }}" target="_blank"><i class="fab fa-instagram me-1"></i>Instagram</a>
-            @endif
-            @if(!empty($settings['facebook']))
-            <a href="{{ $settings['facebook'] }}" target="_blank"><i class="fab fa-facebook me-1"></i>Facebook</a>
             @endif
         </div>
     </div>
@@ -504,12 +500,6 @@
                     <a href="{{ $settings['instagram'] }}" target="_blank" class="contact-item">
                         <div class="icon-wrap ig"><i class="fab fa-instagram"></i></div>
                         <div><strong>Instagram</strong><span>Nos siga no Instagram</span></div>
-                    </a>
-                    @endif
-                    @if(!empty($settings['facebook']))
-                    <a href="{{ $settings['facebook'] }}" target="_blank" class="contact-item">
-                        <div class="icon-wrap fb"><i class="fab fa-facebook"></i></div>
-                        <div><strong>Facebook</strong><span>Nos siga no Facebook</span></div>
                     </a>
                     @endif
                 </div>

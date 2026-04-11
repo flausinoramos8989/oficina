@@ -23,7 +23,6 @@ class DatabaseSeeder extends Seeder
             'hero_subtitle'   => 'Qualidade e agilidade no seu veículo',
             'about_text'      => 'Somos uma oficina especializada com mais de 10 anos de experiência.',
             'whatsapp'        => '5511999999999',
-            'facebook'        => 'https://facebook.com/suaoficina',
             'instagram'       => 'https://instagram.com/suaoficina',
             'address'         => 'Rua Exemplo, 123 - São Paulo/SP',
             'phone'           => '(11) 99999-9999',
