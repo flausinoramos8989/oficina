@@ -13,7 +13,7 @@ class BillController extends Controller
 {
     public function index(Request $request)
     {
-        $month = Carbon::parse($request->get('month', now()->format('Y-m')));
+        $month = Carbon::parse($request->get('month', now()->format('Y-m')))->locale('pt_BR');
 
         $occurrences = BillOccurrence::with('bill')
             ->whereYear('due_date', $month->year)
